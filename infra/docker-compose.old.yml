@@ -1,26 +1,15 @@
 version: '3.3'
-
-volumes:
-  static:
-  media:
-
-
 services:
 
   frontend:
     container_name: foodgram-front
     build: ../frontend
     volumes:
-      - static:/frontend_static/
-    command: cp -r /app/build/. /frontend_static/
-
+      - ../frontend/:/app/result_build/
   backend:
     container_name: foodgram-backend
     build: ../backend/foodgram_backend
-    volumes:
-      - static:/backend_static/
-      - media:/app/media/
-   
+ 
   nginx:
     container_name: foodgram-proxy
     image: nginx:1.25.4-alpine
@@ -28,8 +17,5 @@ services:
       - "80:80"
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ../frontend/build:/usr/share/nginx/html/
       - ../docs/:/usr/share/nginx/html/api/docs/
-      - static:/staticfiles/
-      - ../docs/:/staticfiles/api/docs/
-      - media:/media/
- 
