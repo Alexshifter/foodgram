@@ -15,14 +15,14 @@ const About = ({ updateOrders, orders }) => {
       <h1 className={styles.title}>Привет!</h1>
       <div className={styles.content}>
         <div>
-          <h2 className={styles.subtitle}>Что это за сайт?</h2>
+          <h2 className={styles.subtitle}>А что это за сайт?</h2>
           <div className={styles.text}>
             <p className={styles.textItem}>
-              Представляю вам проект, созданный во время обучения в Яндекс Практикуме. Этот проект — часть учебного курса, но он создан полностью самостоятельно.
+              Представляю проект сайта продуктового помощника "Фудграм", созданный во время обучения в Яндекс Практикуме. Проект является финальной частью учебного курса, но создан полностью самостоятельно.
             </p>
             <p className={styles.textItem}>
-              Цель этого сайта — дать возможность пользователям создавать и хранить рецепты на онлайн-платформе. Кроме того, можно скачать список продуктов, необходимых для
-              приготовления блюда, просмотреть рецепты друзей и добавить любимые рецепты в список избранных.
+              Продуктовый помощник позволяет создавать и хранить рецепты на онлайн-платформе. Можно скачать список продуктов, необходимых для
+              приготовления блюда, посмотреть рецепты друзей, подписаться на интересных авторов и добавить любимые рецепты в список избранного.
             </p>
             <p className={styles.textItem}>
               Чтобы использовать все возможности сайта — нужна регистрация. Проверка адреса электронной почты не осуществляется, вы можете ввести любой email. 
@@ -38,10 +38,10 @@ const About = ({ updateOrders, orders }) => {
           </h2>
           <div className={styles.text}>
             <p className={styles.textItem}>
-              Код проекта находится тут - <a href="#" className={styles.textLink}>Github</a>
+              Исходный код проекта: <a href="https://github.com/Alexshifter/foodgram.git" className={styles.textLink}>Github</a>
             </p>
             <p className={styles.textItem}>
-              Автор проекта: <a href="#" className={styles.textLink}>Имя Автора</a>
+              Автор проекта: <a href="https://github.com/Alexshifter" className={styles.textLink}>Alexshifter</a>
             </p>
           </div>
         </aside>
@@ -52,4 +52,3 @@ const About = ({ updateOrders, orders }) => {
 }
 
 export default About
-

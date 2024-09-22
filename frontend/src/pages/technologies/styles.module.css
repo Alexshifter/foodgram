@@ -17,7 +17,7 @@
   text-align: left;
 }
 
-.subtitle {
+/*.subtitle {
   font-family: 'Raleway', Arial, Helvetica, sans-serif;
   font-style: normal;
   font-weight: 600;
@@ -37,8 +37,24 @@
 }
 
 .textItem {
-  margin: 0 0 16px;
+  margin: 0 0 24px;
+}*/
+
+
+.logos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); 
+  gap: 20px; 
+  justify-items: center; 
+  align-items: center; 
+  padding: 20px;
 }
+.logos img {
+  width: 100px;
+  height: auto; 
+  object-fit: contain; 
+}
+
 
 @media screen and (max-width: 950px) {
   .title {
