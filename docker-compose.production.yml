@@ -28,11 +28,10 @@ services:
     depends_on:
       - backend
       - frontend
-    image: nginx:1.25.4-alpine
+    image: alexshifter/foodgram_gateway
     ports:
       - "3000:80"
     volumes:
-      - ./infra/nginx.conf:/etc/nginx/templates/default.conf.template
       - ./docs/:/usr/share/nginx/html/api/docs/
       - static:/staticfiles/
       - ./docs/:/staticfiles/api/docs/
