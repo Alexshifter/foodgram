@@ -8,6 +8,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import decorators, status, viewsets
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .filters import IngredientsSearchFilter, RecipesSearchFilter
 from .models import Favorite, Ingredient, Recipe, Shopping_cart, ShortLink, Tag
@@ -17,6 +18,18 @@ from .serializers import (FavoriteSerializer, IngredientSerializer,
                           ShoppingCartSerializer, ShortLinkSerializer,
                           TagSerializer)
 from .shopping_cart import create_pdf_template
+
+
+class ShortLinkRedirectView(APIView):
+
+    """Вью-класс для редиректа с короткой ссылки рецепта на прямую."""
+
+    permission_classes = (AllowAny,)
+
+    def get(self, request, short_code_path):
+        obj = get_object_or_404(ShortLink,
+                                short_code_path=short_code_path)
+        return redirect(obj.original_path)
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
@@ -39,16 +52,6 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Ingredient.objects.all()
     filter_backends = (IngredientsSearchFilter,)
     search_fields = ('^name',)
-
-
-@decorators.api_view(['GET'])
-def short_link_view(request, short_code_path):
-
-    """Вью функция для редиректа c короткой ссылки на страницу рецепта."""
-
-    obj = get_object_or_404(ShortLink,
-                            short_code_path=short_code_path)
-    return redirect(obj.original_path)
 
 
 class RecipeViewSet(viewsets.ModelViewSet):

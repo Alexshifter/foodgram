@@ -2,3 +2,5 @@
 
 По адресу http://localhost изучите фронтенд веб-приложения, а по адресу http://localhost/api/docs/ — спецификацию API.
 
+Команда инициализации при запуске впервые: 
+docker-compose exec backend bash ./initial_set.sh
