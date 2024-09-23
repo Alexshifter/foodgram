@@ -1,6 +1,5 @@
 import io
 
-from api.paginators import FoodgramPaginator
 from django.db.models import Sum
 from django.http import FileResponse
 from django.shortcuts import get_object_or_404, redirect
@@ -10,14 +9,16 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .filters import IngredientsSearchFilter, RecipesSearchFilter
-from .models import Favorite, Ingredient, Recipe, Shopping_cart, ShortLink, Tag
-from .permissions import IsOwnerOrReadOnly
-from .serializers import (FavoriteSerializer, IngredientSerializer,
-                          RecipeCreateSerializer, RecipeGetSerializer,
-                          ShoppingCartSerializer, ShortLinkSerializer,
-                          TagSerializer)
-from .shopping_cart import create_pdf_template
+from api.paginators import FoodgramPaginator
+from recipes.filters import IngredientsSearchFilter, RecipesSearchFilter
+from recipes.models import (Favorite, Ingredient, Recipe, Shopping_cart,
+                            ShortLink, Tag)
+from recipes.permissions import IsOwnerOrReadOnly
+from recipes.serializers import (FavoriteSerializer, IngredientSerializer,
+                                 RecipeCreateSerializer, RecipeGetSerializer,
+                                 ShoppingCartSerializer, ShortLinkSerializer,
+                                 TagSerializer)
+from recipes.shopping_cart import create_pdf_template
 
 
 class ShortLinkRedirectView(APIView):

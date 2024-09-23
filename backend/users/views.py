@@ -6,8 +6,8 @@ from rest_framework.response import Response
 
 from api.paginators import FoodgramPaginator
 from users.models import Following, NewUser
-from .serializers import (AvatarSerializer, FollowingSerializer,
-                          NewUserCreateSerializer, NewUserGetSerializer)
+from users.serializers import (AvatarSerializer, FollowingSerializer,
+                               NewUserCreateSerializer, NewUserGetSerializer)
 
 
 class NewUserViewSet(viewsets.ModelViewSet):

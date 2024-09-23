@@ -9,10 +9,6 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Указываем директорию для загрузки оттуда фикстур
-
-#FIXTURE_DIRS = (os.path.join(BASE_DIR, 'data/fixtures'))
-
 SECRET_KEY = os.getenv('SECRET_KEY', default=get_random_secret_key())
 
 DEBUG = (os.getenv('DEBUG_STATUS', '').lower() == 'true')
@@ -28,8 +24,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'corsheaders',
     'django_filters',
-   # 'corsheaders',
     'rest_framework.authtoken',
     'djoser',
     'api.apps.ApiConfig',
@@ -40,7 +36,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    #'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -152,10 +148,9 @@ DJOSER = {
 }
 
 
-#CORS_ORIGIN_ALLOW_ALL = True
-#CORS_URLS_REGEX = True
-#CORS_URLS_REGEX = r'^/api/.*$'
+CORS_URLS_REGEX = r'^(/api/.*|/s/.*)$'
 
-#CORS_ALLOWED_ORIGINS = [
-#    'http://localhost',
-#]
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost'
+
+]

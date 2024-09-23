@@ -4,9 +4,9 @@ import string
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
+from recipes.models import (Favorite, Ingredient, IngredientInRecipe, Recipe,
+                            Shopping_cart, ShortLink, Tag)
 from users.serializers import Base64ImageField, NewUserGetSerializer
-from .models import (Favorite, Ingredient, IngredientInRecipe, Recipe,
-                     Shopping_cart, ShortLink, Tag)
 
 
 class TagSerializer(serializers.ModelSerializer):
