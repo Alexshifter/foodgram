@@ -4,7 +4,8 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import (Image, ListFlowable, ListItem, Paragraph,
                                 SimpleDocTemplate, Spacer)
-from foodgram_backend.settings import ALLOWED_HOSTS
+
+
 def create_pdf_template(buffer, queryset, username):
 
     """Формирование списка покупок в формате *.pdf"""
