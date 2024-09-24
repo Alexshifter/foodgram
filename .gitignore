@@ -142,3 +142,4 @@ static/
 media/
 
 docker-compose.yml
+docker-compose

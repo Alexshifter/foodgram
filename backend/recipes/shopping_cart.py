@@ -5,18 +5,16 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import (Image, ListFlowable, ListItem, Paragraph,
                                 SimpleDocTemplate, Spacer)
 
-from foodgram_backend.settings import MEDIA_ROOT
-
 
 def create_pdf_template(buffer, queryset, username):
 
     """Формирование списка покупок в формате *.pdf"""
 
     pdfmetrics.registerFont(TTFont(
-        'Roboto', MEDIA_ROOT / 'fonts/Roboto-Regular.ttf', 'UTF-8'
+        'Roboto', 'data/fonts/Roboto-Regular.ttf', 'UTF-8'
     ))
     pdf_template = SimpleDocTemplate(buffer, pagesize=A4)
-    logo = Image(MEDIA_ROOT / 'logo_foodgram.png', width=159, height=43)
+    logo = Image('data/logo_foodgram.png', width=159, height=43)
     space_after_logo = Spacer(1, 30)
     styles = getSampleStyleSheet()
     header_style = ParagraphStyle(
