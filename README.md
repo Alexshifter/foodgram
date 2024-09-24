@@ -1,5 +1,4 @@
 [![Foodgram CI/CD](https://github.com/Alexshifter/foodgram/actions/workflows/main.yml/badge.svg)](https://github.com/Alexshifter/foodgram/actions/workflows/main.yml)
-[![](https://github.com/Alexshifter/foodgram/actions/workflows/main.yml/badge.svg?event=push)](https://github.com/Alexshifter/foodgram/actions/workflows/main.yml)
 #  Foodgram - продуктовый помощник для обмена рецептами любимых блюд
 ## Возможности Foodgram
 ### Для всех пользователей:
