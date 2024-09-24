@@ -152,10 +152,11 @@ class RecipeViewSet(viewsets.ModelViewSet):
         """Скачивание списка покупок."""
 
         current_user = self.request.user
-        queryset = Recipe.objects.filter(
-            shopping_cart__user=current_user).values(
-                'ingredients__name', 'ingredients__measurement_unit'
-        ).annotate(total=Sum('ingredients_in_recipe__amount'))
+        queryset = Shopping_cart.objects.filter(
+            user=current_user).values(
+                'recipe__ingredients__name',
+                'recipe__ingredients__measurement_unit').annotate(
+                total=Sum('recipe__ingredients_in_recipe__amount'))
         buffer = io.BytesIO()
         return FileResponse(create_pdf_template(buffer, queryset,
                             current_user.username), as_attachment=True,
