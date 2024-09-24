@@ -12,6 +12,7 @@ services:
       - pg_data:/var/lib/postgresql/data 
   backend:
     image: alexshifter/foodgram_backend
+    container_name: backend
     env_file: .env
     depends_on:
       - db
@@ -19,6 +20,7 @@ services:
       - static:/backend_static/
       - media:/app/media/
   frontend:
+    container_name: frontend
     depends_on:
       - db
     image: alexshifter/foodgram_frontend
@@ -26,6 +28,7 @@ services:
       - static:/frontend_static/
     command: cp -r /app/build/. /frontend_static/
   gateway:
+    container_name: gateway
     depends_on:
       - backend
       - frontend
