@@ -148,7 +148,7 @@ jobs:
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
           ${{ (github.actor) }} cоздал новый коммит.
-          Репозиторий: {{ (github.repository) }} ;
+          Репозиторий: ${{ github.repository }} ;
           Сообщение коммита: ${{ github.event.commits[0].message }};
           Ссылка на гитхаб: https://github.com/${{ github.repository }}/commit/${{github.sha}}
           Деплой успешно выполнен!

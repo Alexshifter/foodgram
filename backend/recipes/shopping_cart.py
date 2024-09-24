@@ -12,7 +12,6 @@ def create_pdf_template(buffer, queryset, username):
     pdfmetrics.registerFont(TTFont(
         'Roboto', 'recipes/data/fonts/Roboto-Regular.ttf', 'UTF-8'
     ))
-    print(ALLOWED_HOSTS)
     pdf_template = SimpleDocTemplate(buffer, pagesize=A4)
     logo = Image('recipes/data/logo_foodgram.png', width=159, height=43)
     space_after_logo = Spacer(1, 30)
