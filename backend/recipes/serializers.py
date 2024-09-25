@@ -206,7 +206,7 @@ class FavoriteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Favorite
-        fields = ['recipe', 'user',]
+        fields = ['recipe', 'user', ]
 
     def validate(self, initial_data):
         recipe = initial_data.get('recipe')

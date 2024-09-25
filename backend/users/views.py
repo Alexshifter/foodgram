@@ -34,10 +34,10 @@ class NewUserViewSet(viewsets.ModelViewSet):
         """Установка пермишенов."""
 
         if self.action in ['destroy']:
-            return [IsAdminUser(),]
+            return [IsAdminUser(), ]
         elif self.action in ['create', 'list', 'retrieve']:
-            return [AllowAny(),]
-        return [IsAuthenticated(),]
+            return [AllowAny(), ]
+        return [IsAuthenticated(), ]
 
     def get_serializer_class(self):
         return self.serializer_classes.get(self.action)

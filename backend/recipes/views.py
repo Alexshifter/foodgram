@@ -86,8 +86,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     @decorators.action(
         detail=True,
-        methods=('GET',),
-        permission_classes=[AllowAny,],
+        methods=('GET', ),
+        permission_classes=[AllowAny, ],
         url_path='get-link')
     def get_link(self, request, pk):
 
