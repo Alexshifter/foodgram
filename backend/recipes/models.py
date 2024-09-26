@@ -137,7 +137,6 @@ class Favorite(models.Model):
         verbose_name = 'избранное'
         verbose_name_plural = 'Избранное'
 
-
     def __str__(self):
         return f'рецепт {self.recipe} в избранном у {self.user}'[:LEN_LIMIT]
 
