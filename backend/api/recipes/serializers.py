@@ -1,14 +1,13 @@
 import random
 import string
 
-
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from api.fields import Base64ImageField
 from api.users.serializers import NewUserGetSerializer
 from recipes.models import (Favorite, Ingredient, IngredientInRecipe, Recipe,
-                            ShoppingСart, ShortLink, Tag)
+                            ShoppingCart, ShortLink, Tag)
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -187,7 +186,7 @@ class RecipeGetSerializer(serializers.ModelSerializer):
 
         """Рецепты в корзине у корзине у пользователя."""
 
-        return self.get_boolean_value_field(obj, ShoppingСart)
+        return self.get_boolean_value_field(obj, ShoppingCart)
 
 
 class FavoriteSerializer(serializers.ModelSerializer):
@@ -221,13 +220,13 @@ class ShoppingCartSerializer(serializers.ModelSerializer):
     """Сериализатор корзины покупок."""
 
     class Meta:
-        model = ShoppingСart
+        model = ShoppingCart
         fields = ('recipe', 'user',)
 
     def validate(self, initial_data):
         recipe = initial_data.get('recipe')
         request = self.context.get('request')
-        obj = ShoppingСart.objects.filter(
+        obj = ShoppingCart.objects.filter(
             recipe=recipe.id,
             user=request.user.id
         )

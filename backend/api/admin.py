@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from recipes.models import (Favorite, Ingredient, IngredientInRecipe, Recipe,
-                            ShoppingСart, ShortLink, Tag)
+                            ShoppingCart, ShortLink, Tag)
 from users.models import Following, NewUser
 
 
@@ -60,6 +60,6 @@ class ShortLinkAdmin(admin.ModelAdmin):
     list_display_links = ('short_code_path',)
 
 
-@admin.register(ShoppingСart)
+@admin.register(ShoppingCart)
 class CartAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'recipe',)

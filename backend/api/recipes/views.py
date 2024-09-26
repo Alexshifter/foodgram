@@ -18,7 +18,7 @@ from api.recipes.serializers import (FavoriteSerializer, IngredientSerializer,
                                      ShoppingCartSerializer,
                                      ShortLinkSerializer, TagSerializer)
 from api.recipes.shopping_cart import create_pdf_template
-from recipes.models import (Favorite, Ingredient, Recipe, ShoppingСart,
+from recipes.models import (Favorite, Ingredient, Recipe, ShoppingCart,
                             ShortLink, Tag)
 
 
@@ -140,7 +140,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         """Работа с корзиной."""
 
         return self.post_delete_recipes_for_fav_and_shop_cart(
-            request, pk, ShoppingСart
+            request, pk, ShoppingCart
         )
 
     @decorators.action(
@@ -153,7 +153,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         """Скачивание списка покупок."""
 
         current_user = self.request.user
-        queryset = ShoppingСart.objects.filter(
+        queryset = ShoppingCart.objects.filter(
             user=current_user).values(
                 'recipe__ingredients__name',
                 'recipe__ingredients__measurement_unit').annotate(

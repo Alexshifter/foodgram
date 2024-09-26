@@ -141,7 +141,7 @@ class Favorite(models.Model):
         return f'рецепт {self.recipe} в избранном у {self.user}'[:LEN_LIMIT]
 
 
-class ShoppingСart(models.Model):
+class ShoppingCart(models.Model):
 
     """Модель корзины покупок пользователя."""
 
