@@ -57,5 +57,4 @@ Python 3.9.13, Django 3.2.16, Django REST framework 3.12.4, PostgreSQL 13.10, Ng
 ## Автор
 [Alexey Pakaev](https://github.com/Alexshifter/)
 ## Сайт проекта
-Пример сайта проекта доступен по адресу: 
-````https://foodgram.cloudns.be```
+https://foodgram.cloudns.be
