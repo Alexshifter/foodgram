@@ -1,26 +1,10 @@
-import base64
-
-from django.core.files.base import ContentFile
 from djoser.serializers import SetPasswordSerializer, UserCreateSerializer
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
+from api.fields import Base64ImageField
 from recipes.models import Recipe
 from users.models import Following, NewUser
-
-
-class Base64ImageField(serializers.ImageField):
-
-    """Сериализатор для преобразования изображения в формат base64."""
-
-    def to_internal_value(self, data):
-        if isinstance(data, str) and data.startswith('data:image'):
-            format, imgstr = data.split(';base64,')
-            ext = format.split('/')[-1]
-
-            data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
-
-        return super().to_internal_value(data)
 
 
 class NewUserGetSerializer(serializers.ModelSerializer):
@@ -38,11 +22,10 @@ class NewUserGetSerializer(serializers.ModelSerializer):
 
         """Метод проверки подписки на автора."""
 
-        get_request = self.context.get('request')
-        if get_request:
-            current_user = get_request.user
-            if not current_user.is_anonymous:
-                return current_user.follower.filter(following=obj.id).exists()
+        request = self.context.get('request')
+        if request:
+            if not request.user.is_anonymous:
+                return request.user.follower.filter(following=obj.id).exists()
         return False
 
 

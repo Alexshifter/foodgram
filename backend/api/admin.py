@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from recipes.models import (Favorite, Ingredient, IngredientInRecipe, Recipe,
-                            Shopping_cart, ShortLink, Tag)
+                            ShoppingСart, ShortLink, Tag)
 from users.models import Following, NewUser
 
 
@@ -35,7 +35,7 @@ class RecipeAdmin(admin.ModelAdmin):
 
     @admin.display(description='Теги')
     def get_tags(self, obj):
-        return [tag.name for tag in obj.tags.all()]
+        return [tag.get('name') for tag in obj.tags.values('name')]
 
     @admin.display(description='Число добавлений в избранное')
     def get_count_favorite(self, obj):
@@ -60,6 +60,6 @@ class ShortLinkAdmin(admin.ModelAdmin):
     list_display_links = ('short_code_path',)
 
 
-@admin.register(Shopping_cart)
+@admin.register(ShoppingСart)
 class CartAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'recipe',)

@@ -2,7 +2,8 @@ from django.conf import settings
 from django.core.validators import MinValueValidator, RegexValidator
 from django.db import models
 
-from .constants import LEN_LIMIT, MIN_VALUE_AMOUNT, MIN_VALUE_COOK_TIME
+from foodgram_backend.constants import (LEN_LIMIT, MIN_VALUE_AMOUNT,
+                                        MIN_VALUE_COOK_TIME)
 
 
 class Ingredient(models.Model):
@@ -51,7 +52,6 @@ class Recipe(models.Model):
                                related_name='recipes',
                                verbose_name='Автор')
     name = models.CharField(max_length=256,
-                            unique=True,
                             verbose_name='Название')
     image = models.ImageField(upload_to='recipes/', null=True,
                               default=None,
@@ -94,6 +94,15 @@ class IngredientInRecipe(models.Model):
     )
 
     class Meta:
+
+        """Ограничение повторного ингредиента в рецепте."""
+
+        constraints = [
+            models.UniqueConstraint(
+                fields=['recipe', 'ingredient'],
+                name='%(app_label)s _ %(class)s _unique_relationships',
+            )
+        ]
         default_related_name = 'ingredients_in_recipe'
         verbose_name = 'ингредиент для рецепта'
         verbose_name_plural = 'Ингредиенты для рецептов'
@@ -115,15 +124,25 @@ class Favorite(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
 
     class Meta:
+
+        """Ограничение повторного добавления рецепта в избранное."""
+
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'recipe'],
+                name='%(app_label)s _ %(class)s _unique_relationships',
+            )]
+
         default_related_name = 'favorite'
         verbose_name = 'избранное'
         verbose_name_plural = 'Избранное'
+
 
     def __str__(self):
         return f'рецепт {self.recipe} в избранном у {self.user}'[:LEN_LIMIT]
 
 
-class Shopping_cart(models.Model):
+class ShoppingСart(models.Model):
 
     """Модель корзины покупок пользователя."""
 
@@ -137,6 +156,15 @@ class Shopping_cart(models.Model):
                                verbose_name='Рецепт в списке покупок')
 
     class Meta:
+
+        """Ограничение повторного добавления рецепта в корзину."""
+
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'recipe'],
+                name='%(app_label)s _ %(class)s _unique_relationships',
+            )]
+
         default_related_name = 'shopping_cart'
         verbose_name = 'карта покупок'
         verbose_name_plural = 'Карты покупок'

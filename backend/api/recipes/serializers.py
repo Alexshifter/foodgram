@@ -1,12 +1,14 @@
 import random
 import string
 
+
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
+from api.fields import Base64ImageField
+from api.users.serializers import NewUserGetSerializer
 from recipes.models import (Favorite, Ingredient, IngredientInRecipe, Recipe,
-                            Shopping_cart, ShortLink, Tag)
-from users.serializers import Base64ImageField, NewUserGetSerializer
+                            ShoppingСart, ShortLink, Tag)
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -79,7 +81,6 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
     def validate(self, initial_data):
         ingredients = initial_data.get('ingredients')
         tags = initial_data.get('tags')
-
         if not ingredients:
             raise ValidationError('Список ингредиентов пуст.')
         if not tags:
@@ -129,17 +130,7 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         if tags:
             instance.tags.clear()
             instance.tags.set(tags)
-
-        instance.image = validated_data.get(
-            'image', instance.image)
-        instance.name = validated_data.get('name', instance.name)
-        instance.text = validated_data.get('text', instance.text)
-        instance.cooking_time = validated_data.get(
-            'cooking_time',
-            instance.cooking_time
-        )
-        instance.save()
-        return instance
+        return super().update(instance, validated_data)
 
     def to_representation(self, value):
 
@@ -174,30 +165,29 @@ class RecipeGetSerializer(serializers.ModelSerializer):
             'cooking_time', 'author', 'is_in_shopping_cart', 'is_favorited'
         ]
 
+    def get_boolean_value_field(self, obj, Model):
+
+        """Получение значения поля для is_favorited и shopping_cart."""
+
+        request = self.context.get('request')
+        if request:
+            current_user = request.user
+            if not current_user.is_anonymous:
+                return Model.objects.filter(recipe=obj.id,
+                                            user=request.user).exists()
+        return False
+
     def get_is_favorited(self, obj):
 
         """Рецепты в избранном у пользователя."""
 
-        get_request = self.context.get('request')
-        if get_request:
-            current_user = get_request.user
-            if not current_user.is_anonymous:
-                return Favorite.objects.filter(recipe=obj.id,
-                                               user=get_request.user).exists()
-        return False
+        return self.get_boolean_value_field(obj, Favorite)
 
     def get_is_in_shopping_cart(self, obj):
 
         """Рецепты в корзине у корзине у пользователя."""
 
-        get_request = self.context.get('request')
-        if get_request:
-            current_user = get_request.user
-            if not current_user.is_anonymous:
-                return Shopping_cart.objects.filter(
-                    recipe=obj.id,
-                    user=get_request.user).exists()
-        return False
+        return self.get_boolean_value_field(obj, ShoppingСart)
 
 
 class FavoriteSerializer(serializers.ModelSerializer):
@@ -231,13 +221,13 @@ class ShoppingCartSerializer(serializers.ModelSerializer):
     """Сериализатор корзины покупок."""
 
     class Meta:
-        model = Shopping_cart
+        model = ShoppingСart
         fields = ('recipe', 'user',)
 
     def validate(self, initial_data):
         recipe = initial_data.get('recipe')
         request = self.context.get('request')
-        obj = Shopping_cart.objects.filter(
+        obj = ShoppingСart.objects.filter(
             recipe=recipe.id,
             user=request.user.id
         )

@@ -9,16 +9,17 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from api.filters import IngredientsSearchFilter, RecipesSearchFilter
 from api.paginators import FoodgramPaginator
-from recipes.filters import IngredientsSearchFilter, RecipesSearchFilter
-from recipes.models import (Favorite, Ingredient, Recipe, Shopping_cart,
+from api.permissions import IsOwnerOrReadOnly
+from api.recipes.serializers import (FavoriteSerializer, IngredientSerializer,
+                                     RecipeCreateSerializer,
+                                     RecipeGetSerializer,
+                                     ShoppingCartSerializer,
+                                     ShortLinkSerializer, TagSerializer)
+from api.recipes.shopping_cart import create_pdf_template
+from recipes.models import (Favorite, Ingredient, Recipe, ShoppingСart,
                             ShortLink, Tag)
-from recipes.permissions import IsOwnerOrReadOnly
-from recipes.serializers import (FavoriteSerializer, IngredientSerializer,
-                                 RecipeCreateSerializer, RecipeGetSerializer,
-                                 ShoppingCartSerializer, ShortLinkSerializer,
-                                 TagSerializer)
-from recipes.shopping_cart import create_pdf_template
 
 
 class ShortLinkRedirectView(APIView):
@@ -107,7 +108,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         if request.method == 'DELETE':
             obj = Model.objects.filter(recipe=instance.id,
                                        user=request.user.id)
-            if obj:
+            if obj.exists():
                 obj.delete()
                 return Response(status=status.HTTP_204_NO_CONTENT)
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -139,7 +140,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         """Работа с корзиной."""
 
         return self.post_delete_recipes_for_fav_and_shop_cart(
-            request, pk, Shopping_cart
+            request, pk, ShoppingСart
         )
 
     @decorators.action(
@@ -152,7 +153,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         """Скачивание списка покупок."""
 
         current_user = self.request.user
-        queryset = Shopping_cart.objects.filter(
+        queryset = ShoppingСart.objects.filter(
             user=current_user).values(
                 'recipe__ingredients__name',
                 'recipe__ingredients__measurement_unit').annotate(

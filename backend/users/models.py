@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from recipes.constants import LEN_LIMIT
+from foodgram_backend.constants import LEN_LIMIT
 
 
 class NewUser(AbstractUser):

@@ -1,13 +1,13 @@
-from django.core.exceptions import PermissionDenied
 from djoser.serializers import SetPasswordSerializer
 from rest_framework import decorators, status, viewsets
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 
 from api.paginators import FoodgramPaginator
+from api.users.serializers import (AvatarSerializer, FollowingSerializer,
+                                   NewUserCreateSerializer,
+                                   NewUserGetSerializer)
 from users.models import Following, NewUser
-from users.serializers import (AvatarSerializer, FollowingSerializer,
-                               NewUserCreateSerializer, NewUserGetSerializer)
 
 
 class NewUserViewSet(viewsets.ModelViewSet):
@@ -33,7 +33,7 @@ class NewUserViewSet(viewsets.ModelViewSet):
 
         """Установка пермишенов."""
 
-        if self.action in ['destroy']:
+        if self.action in ['destroy', 'update', 'partial_update']:
             return [IsAdminUser(), ]
         elif self.action in ['create', 'list', 'retrieve']:
             return [AllowAny(), ]
@@ -63,17 +63,11 @@ class NewUserViewSet(viewsets.ModelViewSet):
         serializer = SetPasswordSerializer(data=request.data,
                                            context={'request': request})
         serializer.is_valid(raise_exception=True)
-        self.request.user.set_password(serializer.data["new_password"])
+        self.request.user.set_password(
+            serializer.validated_data["new_password"]
+        )
         self.request.user.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-    def perform_update(self, serializer):
-
-        """Ограничение на изменение чужих данных."""
-
-        if serializer.instance.user != self.request.user:
-            raise PermissionDenied('Изменение чужого контента запрещено!')
-        super().perform_update(serializer)
 
     @decorators.action(methods=['PUT', 'DELETE'], detail=False,
                        url_path='me/avatar', url_name='my_avatar',
